@@ -1,0 +1,102 @@
+//2급
+#include <stdio.h>
+#pragma warning(disable:4996)
+int main()
+{
+   int index;
+   int mine;
+   int num;
+    char game[10][10];
+    char row[10];
+    int cal=0;
+    
+    int row_index, col_index;
+    //set initial condition
+    for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
+            game[i][j]='0';
+        }
+    }
+    
+    scanf("%d", &index);
+    for(int i=0;i<index;i++){
+        scanf("%s", row);
+        for(int j=0;j<index;j++){
+            game[i][j]=row[j];
+        }
+    }
+    for(int i=0;i<index;i++){
+        
+        num=0;
+        for(int j=0;j<index;j++){
+        if(game[i][j]=='*'){//지뢰인경우 continue
+            printf("*");
+            continue;
+        }
+        //인접셀 계산
+        row_index=i-1;
+        col_index=j-1;
+        cal=0;
+        while(cal<3){
+            
+            if(row_index>=0 && col_index>=0){
+                if(game[row_index][col_index]=='*'){
+                    num++;
+                }
+                
+            }
+            col_index++;
+            cal++;
+        }
+        col_index--;
+        row_index++;
+        cal=0;
+        while(cal<2){
+            
+            if(row_index>=0 && col_index>=0){
+                if(game[row_index][col_index]=='*'){
+                    num++;
+                }
+                
+            }
+            row_index++;
+            cal++;
+        }
+        row_index--;
+        col_index--;
+        cal=0;
+        while(cal<2){
+            
+            if(row_index>=0 && col_index>=0){
+                if(game[row_index][col_index]=='*'){
+                    num++;
+                }
+                
+            }
+            col_index--;
+            cal++;
+        }
+        col_index++;
+        row_index--;
+        cal=0;
+
+        if(row_index>=0 && col_index>=0){
+            if(game[row_index][col_index]=='*'){
+                num++;
+            }
+                
+        }
+          
+        //row_index++;
+        printf("%d", num);
+        num=0;
+        
+        
+        }
+        printf("\n");
+    }
+   
+    
+
+    return 0;
+}
