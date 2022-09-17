@@ -1,0 +1,331 @@
+//1급
+#include <stdio.h>
+#pragma warning(disable:4996)
+int main()
+{
+    int index;
+    int mine;
+    int num;
+    char game[10][10];
+    char row[10];
+    int cal=0;
+    //최대 최소 좌표 최대 지뢰수
+    int max=-1, min=10;
+    int row_max, col_max;
+    int row_min, col_min;
+    int tmp_row_max, tmp_col_max;
+    int tmp_row_min, tmp_col_min;
+    //임시저장좌표
+    int tmp_row, tmp_col;
+    
+    
+    
+    
+    int row_index, col_index;
+    //set initial condition
+    for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
+            game[i][j]='0';
+        }
+    }
+    
+    scanf("%d", &index);
+    for(int i=0;i<index;i++){
+        scanf("%s", row);
+        for(int j=0;j<index;j++){
+            game[i][j]=row[j];
+        }
+    }
+    
+    for(int i=0;i<index;i++){
+        
+        num=0;
+        for(int j=0;j<index;j++){
+        if(game[i][j]=='*'){//지뢰인경우 continue
+            //printf("*");
+            continue;
+        }
+        //인접셀 계산
+        tmp_row=i;
+        tmp_col=j;
+        row_index=i-1;
+        col_index=j-1;
+        cal=0;
+        while(cal<3){
+            
+            if(row_index>=0 && col_index>=0){
+                if(game[row_index][col_index]=='*'){
+                    num++;
+                }
+                
+            }
+            col_index++;
+            cal++;
+        }
+        col_index--;
+        row_index++;
+        cal=0;
+        while(cal<2){
+            
+            if(row_index>=0 && col_index>=0){
+                if(game[row_index][col_index]=='*'){
+                    num++;
+                }
+                
+            }
+            row_index++;
+            cal++;
+        }
+        row_index--;
+        col_index--;
+        cal=0;
+        while(cal<2){
+            
+            if(row_index>=0 && col_index>=0){
+                if(game[row_index][col_index]=='*'){
+                    num++;
+                }
+                
+            }
+            col_index--;
+            cal++;
+        }
+        col_index++;
+        row_index--;
+        cal=0;
+
+        if(row_index>=0 && col_index>=0){
+            if(game[row_index][col_index]=='*'){
+                num++;
+            }
+                
+        }
+          
+        //row_index++;
+        
+        
+        
+        if(num>max){
+            row_max=tmp_row;
+            col_max=tmp_col;
+            max=num;
+        }
+        if(num<min){
+            row_min=tmp_row;
+            col_min=tmp_col;
+            min=num;
+        }
+        num=0;
+        
+        
+        }
+        //printf("\n");
+        
+    }
+    
+    int row_p1, row_p2;
+    int col_p1, col_p2;
+   //case1. row가 같을경우
+    if(row_max==row_min){
+        row_p1=row_max;
+        row_p2=row_max;
+        
+        if(col_max>col_min){
+            col_p1=col_min;
+            col_p2=col_max;
+        }
+        else{
+            col_p1=col_max;
+            col_p2=col_min;
+        }
+        num=0;
+        while(col_p1!=col_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            col_p1++;
+        }
+        printf("%d %d %d", max,min,num);
+    }
+    //case2. col이 같을경우
+    else if(col_max==col_min){
+        col_p1=col_max;
+        col_p2=col_max;
+        
+         if(row_max>row_min){
+            row_p1=row_min;
+            row_p2=row_max;
+        }
+        else{
+            row_p1=row_max;
+            row_p2=row_min;
+
+        }
+        num=0;
+        while(row_p1!=col_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            row_p1++;
+        }
+        printf("%d %d %d", max,min,num);
+    }
+    //case3. row col 모두 다를경우
+    else{
+        num=0;
+        row_p1=row_max;
+        row_p2=row_min;
+        col_p1=col_max;
+        col_p2=col_min;
+        
+        tmp_row_max=row_p1;
+        tmp_row_min=row_p2;
+        tmp_col_max=col_p1;
+        tmp_col_min=col_p2;
+        
+        
+        
+        //row먼저 움직이기
+        if(row_p1>row_p2){
+            while(row_p1!=row_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            row_p1--;
+        }
+            if(col_p1>col_p2){
+            while(col_p1!=col_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            col_p1--;
+        }
+            
+        }
+        else{
+            while(col_p1!=col_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            col_p1++;
+        }
+            
+        }
+            
+        }
+        else{
+            while(row_p1!=row_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            row_p1++;
+        }
+            if(col_p1>col_p2){
+            while(col_p1!=col_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            col_p1--;
+        }
+            
+        }
+        else{
+            while(col_p1!=col_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            col_p1++;
+        }
+            
+        }
+            
+        }
+        row_p1=tmp_row_max;
+        row_p2=tmp_row_min;
+        col_p1=tmp_col_max;
+        col_p2=tmp_col_min;
+        int tmpnum=num;
+        num=0;
+        //col먼저 움직이기
+        if(col_p1>col_p2){
+            while(col_p1!=col_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            col_p1--;
+        }
+            if(row_p1>row_p2){
+            while(row_p1!=row_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            row_p1--;
+        }
+            
+        }
+        else{
+            while(row_p1!=row_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            row_p1++;
+        }
+            
+        }
+            
+        }
+        else{
+            while(col_p1!=col_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            col_p1++;
+        }
+            if(row_p1>row_p2){
+            while(row_p1!=row_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            row_p1--;
+        }
+            
+        }
+        else{
+            while(row_p1!=row_p2){
+            
+            if(game[row_p1][col_p1]=='*'){
+                num++;
+            }
+            row_p1++;
+        }
+            
+        }
+            
+        }
+        if(num>tmpnum){
+            printf("%d %d %d", max,min,tmpnum);
+            
+        }
+        else{
+            printf("%d %d %d", max,min,num);
+        }
+       
+        
+    }
+    
+
+    return 0;
+}
